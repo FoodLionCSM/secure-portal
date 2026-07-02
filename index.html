@@ -1,0 +1,55 @@
+# InternshipProject
+TestingInternshipProject
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name= "viewpoint" content="width=device-width, initial-scale=1.0">
+  <title> Secure Portal </title>
+  <!-- Load the Supabase Script securely -->
+  <script src="https://jsdelivr.net"></script
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2> Enter Password </h2>
+  <input type= "password" id="passwordInput" placeholder= "enter your key...">
+  <button onclick="checkPassword()">Unlock Content </button>
+  <div id= "content"></div>
+</div>
+
+<script>
+  //Replace these witht he actual keys from your supabase project settings 
+  const SUPABASE_URL = "https://prgpcqcqkfyrkwygtqrv.supabase.co";
+  const SUPABASE_ANON_Key = "sb_publishable_Fd-Dvau9CbQsZK-XF85GLA_WEcQLp_k";
+
+  const supabase = lib.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function checkPassword() {
+    const userInput = document.getElementById('passwordInput').value;
+    const contentDiv = document.getElementbyId('content');
+    contentDiv.innerText = "Checking...";
+
+    // Securely query the database for a matching password row 
+    const { data, error } = await supabase
+    .from('secret_content')
+    .select('hidden_info')
+    .eq('password_key', userInput)
+    .single();
+
+    if (error || !data) {
+      contentDiv.style.color = "red";
+      contentDiv.innerText = "invalid password. Access denied.";
+    } else {
+      contentDiv.style.color = "green";
+      //Display the dynamically located information
+      contentDiv.innerHTML = data.hidden_info;
+    }
+  }
+  :/script>
+
+  :/body>
+  :/html>
+  
+</script>
