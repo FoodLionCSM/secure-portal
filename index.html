@@ -1,55 +1,100 @@
-# InternshipProject
-TestingInternshipProject
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name= "viewpoint" content="width=device-width, initial-scale=1.0">
-  <title> Secure Portal </title>
-  <!-- Load the Supabase Script securely -->
-  <script src="https://jsdelivr.net"></script
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Portal</title>
+
+    <!-- Supabase JavaScript Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #content {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
 <div class="box">
-  <h2> Enter Password </h2>
-  <input type= "password" id="passwordInput" placeholder= "enter your key...">
-  <button onclick="checkPassword()">Unlock Content </button>
-  <div id= "content"></div>
+    <h2>Enter Password</h2>
+
+    <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter Password">
+
+    <button onclick="checkPassword()">Unlock Content</button>
+
+    <div id="content"></div>
 </div>
 
 <script>
-   
-  const SUPABASE_URL = "https://prgpcqcqkfyrkwygtqrv.supabase.co";
-  const SUPABASE_ANON_Key = "sb_publishable_Fd-Dvau9CbQsZK-XF85GLA_WEcQLp_k";
+    // Your Supabase project information
+    const SUPABASE_URL = "https://prgpcqcqkfyrkwygtqrv.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
-  const supabase = lib.supabase.createClient(https://prgpcqcqkfyrkwygtqrv.supabase.co, sb_publishable_Fd-Dvau9CbQsZK-XF85GLA_WEcQLp_k);
+    // Create the client
+    const supabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
-  async function checkPassword() {
-    const userInput = document.getElementById('passwordInput').value;
-    const contentDiv = document.getElementbyId('content');
-    contentDiv.innerText = "Checking...";
+    async function checkPassword() {
 
-    // Securely query the database for a matching password row 
-    const { data, error } = await supabase
-    .from('secret_content')
-    .select('hidden_info')
-    .eq('password_key', userInput)
-    .single();
+        const userInput = document.getElementById("passwordInput").value;
+        const contentDiv = document.getElementById("content");
 
-    if (error || !data) {
-      contentDiv.style.color = "red";
-      contentDiv.innerText = "invalid password. Access denied.";
-    } else {
-      contentDiv.style.color = "green";
-      //Display the dynamically located information
-      contentDiv.innerHTML = data.hidden_info;
+        contentDiv.style.color = "black";
+        contentDiv.innerText = "Checking...";
+
+        const { data, error } = await supabase
+            .from("secret_content")
+            .select("hidden_info")
+            .eq("password_key", userInput)
+            .single();
+
+        if (error || !data) {
+            contentDiv.style.color = "red";
+            contentDiv.innerText = "Invalid password. Access denied.";
+        } else {
+            contentDiv.style.color = "green";
+            contentDiv.innerHTML = data.hidden_info;
+        }
     }
-  }
-  :/script>
-
-  :/body>
-  :/html>
-  
 </script>
+
+</body>
+</html>
+
